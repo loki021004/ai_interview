@@ -39,14 +39,16 @@ connectDB();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Serve frontend in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-  // For any route not starting with /api → serve frontend
-  app.get('*', (req, res) => {
+  // ✅ FIX for Express 5: use "(/*)?"
+  app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
   });
 }
+
 
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
