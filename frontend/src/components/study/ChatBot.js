@@ -15,7 +15,7 @@ const ChatBot = () => {
 
     try {
       // Send message to backend AI route
-      const res = await axios.post("http://localhost:3001/api/ai/chat", {
+      const res = await axios.post(`${API}/api/ai/chat`, {
         message: input,
       });
       const botMsg = { from: "bot", text: res.data.reply };

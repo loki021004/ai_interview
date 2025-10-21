@@ -12,7 +12,7 @@ const Aptitude = () => {
   const fetchQuestions = async () => {
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:3001/api/ai/chat", {
+      const res = await axios.post(`${API}/api/ai/chat`, {
         message:
           "Generate 10 aptitude multiple-choice questions in pure JSON format. Each object should contain: question, options (array of 4), and correct answer. Keep it simple.",
       });
@@ -55,7 +55,7 @@ const Aptitude = () => {
       Return the output in pure JSON with keys: score and feedback.
       `;
 
-      const res = await axios.post("http://localhost:3001/api/ai/chat", {
+      const res = await axios.post(`${API}/api/ai/chat`, {
         message: reviewPrompt,
       });
 

@@ -20,7 +20,7 @@ const onSubmit = async (data) => {
   try {
     console.log('Registration form submitted', data);
 
-    const response = await axios.post('http://localhost:3001/api/auth/register', data);
+    const response = await axios.post(`${API}/api/auth/register`, data);
 
     if (response.status === 201) {
       const userData = response.data.user || data; // use backend response or form data

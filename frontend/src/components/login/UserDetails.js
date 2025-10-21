@@ -8,7 +8,7 @@ const UserDetails = () => {
   const navigate = useNavigate();
 
   const fetchUserDetails = async (token) => {
-    return await axios.get("http://localhost:3001/api/auth/getUserDetails", {
+    return await axios.get(`${API}/api/auth/getUserDetails`, {
       withCredentials: true, // send cookie
       headers: {
         Authorization: `Bearer ${token}`,
@@ -33,7 +33,7 @@ const UserDetails = () => {
           try {
             console.log("Access Token Expxired");
             const refreshRes = await axios.get(
-              "http://localhost:3001/api/auth/refresh",
+              `${API}/api/auth/refresh`,
               {
                 withCredentials: true,
               }
@@ -58,7 +58,7 @@ const UserDetails = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:3001/api/auth/logout",
+        `${API}/api/auth/logout`,
         {},
         {
           withCredentials: true,
