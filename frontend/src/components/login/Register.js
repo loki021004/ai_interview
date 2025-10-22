@@ -26,7 +26,7 @@ const onSubmit = async (data) => {
       const userData = response.data.user || data; // use backend response or form data
       localStorage.setItem("user", JSON.stringify(userData)); // ✅ Save user
       alert('Registration successful!');
-      window.location.href = "/dashboard";
+      window.location.href = "/login";
       // Optional: reset form or redirect to login
     }
   } catch (error) {
