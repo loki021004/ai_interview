@@ -14,7 +14,7 @@ const CodingTest = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await axios.get('http://localhost:3001/api/ai/coding-questions'); // use full URL for testing
+        const res = await axios.get('https://ai-interview-9.onrender.com/api/ai/coding-questions'); // use full URL for testing
         setQuestions(res.data);
       } catch (err) {
         console.error("Failed to fetch questions:", err);
@@ -54,7 +54,7 @@ const CodingTest = () => {
 const submitAnswers = async (finalAnswers) => {
   setLoading(true);
   try {
-    const res = await axios.post('http://localhost:3001/api/ai/evaluate-coding', { answers: finalAnswers });
+    const res = await axios.post('https://ai-interview-9.onrender.com/api/ai/evaluate-coding', { answers: finalAnswers });
     setResult(res.data); // { score: X, feedback: [...] }
   } catch (err) {
     console.error("Failed to evaluate answers:", err);

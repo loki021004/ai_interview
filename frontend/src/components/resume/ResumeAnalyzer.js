@@ -26,7 +26,7 @@ const ResumeAnalyzer = () => {
     try {
       setLoading(true);
       setError("");
-      const res = await axios.post("http://localhost:3001/api/ai/analyze-resume", formData, {
+      const res = await axios.post("https://ai-interview-9.onrender.com/api/ai/analyze-resume", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setFeedback(res.data);

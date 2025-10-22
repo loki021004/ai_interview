@@ -14,7 +14,7 @@ const InterviewPage = () => {
   // Generate questions using Gemini API
   const handleGenerateQuestions = async () => {
     try {
-      const res = await axios.post("http://localhost:3001/api/ai/interview/questions", { role, description });
+      const res = await axios.post("https://ai-interview-9.onrender.com/api/ai/interview/questions", { role, description });
       setQuestions(res.data.questions);
 
     } catch (err) {
@@ -30,7 +30,7 @@ const handleSubmitAnswers = async () => {
       answer: answers[i] || ""
     }));
 
-    const res = await axios.post("http://localhost:3001/api/ai/interview/evaluate", {
+    const res = await axios.post("https://ai-interview-9.onrender.com/api/ai/interview/evaluate", {
       role,
       answers: payload
     });
