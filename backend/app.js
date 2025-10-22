@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3001;
 // 🧩 CORS setup — allow frontend URLs (local + deployed)
 const allowedOrigins = [
   'http://localhost:3000', // local React
-  'https://mern-ai-interview-.netlify.app', // 🔁 Replace with your Netlify or Vercel frontend URL
+  'https://ai-interview-9.netlify.com', // 🔁 Replace with your Netlify or Vercel frontend URL
 ];
 
 app.use(cors({
