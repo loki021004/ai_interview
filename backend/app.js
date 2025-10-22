@@ -3,8 +3,6 @@ import connectDB from './config/db.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 import authRoute from './routes/UserRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
@@ -14,10 +12,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// 🧩 CORS setup — allow localhost during dev & Render domain during deploy
+// 🧩 CORS setup — allow frontend URLs (local + deployed)
 const allowedOrigins = [
-  'http://localhost:3000',
-  'https://mern-ai.onrender.com', // ✅ Replace this with your Render frontend URL after deploy
+  'http://localhost:3000', // local React
+  'https://mern-ai-interview-.netlify.app', // 🔁 Replace with your Netlify or Vercel frontend URL
 ];
 
 app.use(cors({
@@ -34,25 +32,6 @@ app.use("/api/ai", aiRoutes);
 
 // 🧠 Connect to MongoDB before starting the server
 connectDB();
-
-// 🧩 Serve React frontend in production
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Serve frontend in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
-
-  // ✅ FIX for Express 5: use "(/*)?"
-   app.use((req, res, next) => {
-    if (!req.path.startsWith('/api')) {
-      res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-    } else {
-      next();
-    }
-  });
-}
-
 
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
