@@ -1,53 +1,50 @@
 import { useForm } from 'react-hook-form';
 import styles from './Auth.module.css';
-import { Link } from 'react-router-dom';
- import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';  // ✅ useNavigate instead of Navigate
+import axios from 'axios';
 
 const Register = () => {
+  const navigate = useNavigate();  // ✅ initialize navigate
+
   const {
-  register,
-  handleSubmit,
-  formState: { errors },
-} = useForm({
-  mode: 'onChange',          // Validate on first change
-  reValidateMode: 'onChange', // Revalidate on every change
-});
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+  });
 
+  const onSubmit = async (data) => {
+    try {
+      console.log('Registration form submitted', data);
+      const response = await axios.post(
+        'https://ai-interview-9.onrender.com/api/auth/register',
+        data
+      );
 
-
-
-const onSubmit = async (data) => {
-  try {
-    console.log('Registration form submitted', data);
-
-    const response = await axios.post('https://ai-interview-9.onrender.com/api/auth/register', data);
-
-    if (response.status === 201) {
-      const userData = response.data.user || data; // use backend response or form data
-      localStorage.setItem("user", JSON.stringify(userData)); // ✅ Save user
-      alert('Registration successful!');
-      window.location.href = "/login";
-      // Optional: reset form or redirect to login
+      if (response.status === 201) {
+        const userData = response.data.user || data;
+        localStorage.setItem('user', JSON.stringify(userData));
+        alert('Registration successful!');
+        navigate('/login');  // ✅ correct navigation
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      if (error.response) {
+        alert(error.response.data.message || 'Registration failed');
+      } else {
+        alert('An unexpected error occurred. Please try again.');
+      }
     }
-  } catch (error) {
-    console.error('Registration error:', error);
-
-    if (error.response) {
-      // Server responded with a non-2xx status
-      alert(error.response.data.message || 'Registration failed');
-    } else {
-      // Unexpected error (like network failure)
-      alert('An unexpected error occurred. Please try again.');
-    }
-  }
-};
-
+  };
 
   return (
     <div className={styles.authContainer}>
       <form className={styles.authForm} onSubmit={handleSubmit(onSubmit)}>
         <h2 className={styles.authTitle}>Create an account</h2>
 
+        {/* Full Name */}
         <div className={styles.inputGroup}>
           <label htmlFor="name" className={styles.label}>Full Name</label>
           <input
@@ -56,15 +53,13 @@ const onSubmit = async (data) => {
             className={styles.input}
             {...register('name', {
               required: 'Name is required',
-              minLength: {
-                value: 3,
-                message: 'Name must be at least 3 characters',
-              },
+              minLength: { value: 3, message: 'Name must be at least 3 characters' },
             })}
           />
           {errors.name && <div className={styles.error}>{errors.name.message}</div>}
         </div>
 
+        {/* Email */}
         <div className={styles.inputGroup}>
           <label htmlFor="email" className={styles.label}>Email</label>
           <input
@@ -82,6 +77,7 @@ const onSubmit = async (data) => {
           {errors.email && <div className={styles.error}>{errors.email.message}</div>}
         </div>
 
+        {/* Mobile */}
         <div className={styles.inputGroup}>
           <label htmlFor="mobile" className={styles.label}>Mobile Number</label>
           <input
@@ -99,6 +95,7 @@ const onSubmit = async (data) => {
           {errors.mobile && <div className={styles.error}>{errors.mobile.message}</div>}
         </div>
 
+        {/* Password */}
         <div className={styles.inputGroup}>
           <label htmlFor="password" className={styles.label}>Password</label>
           <input
@@ -107,18 +104,13 @@ const onSubmit = async (data) => {
             className={styles.input}
             {...register('password', {
               required: 'Password is required',
-              minLength: {
-                value: 6,
-                message: 'Password must be at least 6 characters',
-              },
+              minLength: { value: 6, message: 'Password must be at least 6 characters' },
             })}
           />
           {errors.password && <div className={styles.error}>{errors.password.message}</div>}
         </div>
 
-        <button type="submit" className={styles.submitButton}>
-          Register
-        </button>
+        <button type="submit" className={styles.submitButton}>Register</button>
 
         <p className={styles.toggleText}>
           Already have an account?{' '}
